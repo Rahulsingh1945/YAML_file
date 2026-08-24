@@ -8,7 +8,7 @@ on:
 
 jobs:
   scrape:
-    runs-on: ubuntu-latest #  GitHub provides a temporary virtual machine called a runner
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
@@ -19,14 +19,17 @@ jobs:
         with:
           python-version: "3.12"
 
-      - - name: Install dependencies
+      - name: Install dependencies
         run: |
           python -m pip install requests beautifulsoup4
-          python -m pip install requests requests
 
       - name: Run scraper
         run: |
           python scripts/scraper.py
+
+      - name: Show CSV
+        run: |
+          cat data/raw/books.csv
 
       - name: Save updated CSV
         run: |
