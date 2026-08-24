@@ -6,6 +6,9 @@ on:
 
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   scrape:
     runs-on: ubuntu-latest
@@ -26,10 +29,6 @@ jobs:
       - name: Run scraper
         run: |
           python scripts/scraper.py
-
-      - name: Show CSV
-        run: |
-          cat data/raw/books.csv
 
       - name: Save updated CSV
         run: |
