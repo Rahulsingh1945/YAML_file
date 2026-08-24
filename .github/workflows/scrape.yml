@@ -21,7 +21,10 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+          python -m pip show requests
+          python -m pip show beautifulsoup4
 
       - name: Run scraper
         run: |
