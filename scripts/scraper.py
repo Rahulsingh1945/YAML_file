@@ -267,12 +267,33 @@ def scrape_book(
 
 
 def save_book(book_data):
-    """Append one book to the CSV."""
+    """Save a book only if its UPC is not already in the CSV."""
 
     CSV_FILE.parent.mkdir(
         parents=True,
         exist_ok=True
     )
+
+    existing_upcs = set()
+
+    if CSV_FILE.exists():
+
+        with open(
+            CSV_FILE,
+            "r",
+            newline="",
+            encoding="utf-8"
+        ) as file:
+
+            reader = csv.DictReader(file)
+
+            for row in reader:
+                if row.get("upc"):
+                    existing_upcs.add(row["upc"])
+
+    if book_data.get("upc") in existing_upcs:
+        print(f"Already exists: {book_data['book_name']}")
+        return
 
     file_exists = CSV_FILE.exists()
 
@@ -289,10 +310,11 @@ def save_book(book_data):
         )
 
         if not file_exists:
-
             writer.writeheader()
 
         writer.writerow(book_data)
+
+        print(f"Added: {book_data['book_name']}")
 
 
 def scrape_page(page_number):
